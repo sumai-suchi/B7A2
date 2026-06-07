@@ -1,11 +1,10 @@
-import express from 'express'
-const app = express()
-const port = 3000
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+import { config } from "./config"
+import { app } from "./app"
+const main =async()=>
+{
+  app.listen(config.port, () => {
+  console.log(`Example app listening on port ${config.port}`)
 })
+}
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+main()
