@@ -11,14 +11,8 @@ const createUser = async (req: Request, res: Response) => {
       statusCode: 201,
       success: true,
       message: "User registered successfully",
-      data: {
-        id: result.rows[0].id,
-        name: result.rows[0].name,
-        email: result.rows[0].email,
-        role: result.rows[0].role,
-        created_at: result.rows[0].created_at,
-        updated_at: result.rows[0].updated_at,
-      },
+      data: result.rows[0],
+     
     });
   } catch (error: any) {
     sendResponse(res, {
@@ -30,6 +24,32 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+const login=async( req : Request , res : Response)=>{
+
+    const {email, password}= req.body
+    try{
+         const result = await userService.userLogin(email, password)
+         console.log(result)
+
+         sendResponse(res, {
+            statusCode: 200,
+            success: true,
+            message: "Login successful",
+            data: result,
+          });
+    }
+    catch(error : any){
+        console.log(error)
+        sendResponse(res, {
+            statusCode: 500,
+            success: false,
+            message: error.message,
+            data: error,
+          });
+    }
+}
+
 export const userController = {
   createUser,
+  login
 };
