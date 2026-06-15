@@ -194,6 +194,42 @@ const deleteIssueService = async (issueId: number) => {
   return true;
 };
 
+ const getSingleIssueService = async (issueId: number) => {
+
+  // 1. Get issue
+  const issueResult = await pool.query(
+    `SELECT * FROM issues WHERE id = $1`,
+    [issueId]
+  );
+
+  const issue = issueResult.rows[0];
+
+  if (!issue) {
+    throw new Error("Issue not found");
+  }
+
+  // 2. Get reporter
+  const userResult = await pool.query(
+    `SELECT id, name, role FROM users WHERE id = $1`,
+    [issue.reporter_id]
+  );
+
+  const reporter = userResult.rows[0];
+
+  // 3. Format response
+  const formattedIssue = {
+    id: issue.id,
+    title: issue.title,
+    description: issue.description,
+    type: issue.type,
+    status: issue.status,
+    reporter: reporter || null,
+    created_at: issue.created_at,
+    updated_at: issue.updated_at,
+  };
+
+  return formattedIssue;
+};
 
 
 
@@ -201,6 +237,7 @@ export const issueService={
     createIssueIntoDB,
     getAllIssuesService,
     updateIssueService,
-    deleteIssueService
+    deleteIssueService,
+    getSingleIssueService
 }
 

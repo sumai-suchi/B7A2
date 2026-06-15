@@ -38,19 +38,21 @@ const getAllIssues = async (req: Request, res: Response) => {
       status: status as string,
     });
 
-    return res.status(200).json({
+    return sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: "Issues retrieved successfully",
       data: result,
     });
 
-  } catch (error) {
-    console.log(error);
+  } catch (error : any) {
+  
 
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
+     return sendResponse(res, {
+       statusCode: 400,
+       success: false,
+       message: error.message || "Something went wrong",
+     })
   }
 };
 
@@ -62,17 +64,19 @@ export const updateIssue = async (req: Request, res: Response) => {
 
     const result = await issueService.updateIssueService(issueId, user as User, req.body);
 
-    return res.status(200).json({
-      success: true,
-      message: "Issue updated successfully",
-      data: result,
-    });
+   return sendResponse(res, {
+     statusCode: 200,
+     success: true,
+     message: "Issue updated successfully",
+     data: result,
+   })
 
   } catch (error: any) {
-    return res.status(400).json({
-      success: false,
-      message: error.message || "Something went wrong",
-    });
+     return sendResponse(res, {
+       statusCode: 400,
+       success: false,
+       message: error.message || "Something went wrong",
+     })
   }
 };
 
@@ -100,7 +104,27 @@ export const deleteIssue = async (req: Request, res: Response) => {
   }
 };
 
+export const getSingleIssue = async (req: Request, res: Response) => {
+  try {
+    const issueId = Number(req.params.id);
 
+    const result = await issueService.getSingleIssueService(issueId);
+
+   sendResponse(res, {
+     statusCode: 200,
+     success: true,
+     message: "Issue retrieved successfully",
+     data: result,
+   })
+
+  } catch (error: any) {
+     sendResponse(res, {
+       statusCode: 400,
+       success: false,
+       message: error.message || "Something went wrong",
+     })
+  }
+};
 
 
 
@@ -112,7 +136,8 @@ export const issueController={
     createIssue,
     getAllIssues,
     updateIssue,
-    deleteIssue
+    deleteIssue,
+    getSingleIssue
 }
 
 
