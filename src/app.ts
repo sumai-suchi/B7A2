@@ -5,7 +5,7 @@ import type { Application } from "express";
 import { initDB } from "./db/database";
 import { userRoute } from "./modules/users/user.route";
 import { issueRoute } from "./modules/issues/issue.route";
-import { sendResponse } from "./utils/sendResponse";
+
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 initDB();
 
-app.get("/", (req, res) => sendResponse(res, { statusCode: 200, success: true, message: "Server is running", data: null }));
+
 
 
 app.use("/api/auth", userRoute);
