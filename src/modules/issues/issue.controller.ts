@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { sendResponse } from "../../utils/sendResponse";
+import { sendError, sendResponse } from "../../utils/sendResponse";
 import {  issueService } from "./issue.service";
 import  type {User} from "../issues/issue.interface";
 
@@ -18,12 +18,12 @@ const createIssue= async (req : Request , res : Response)=>{
     }
     catch(error : any){
         console.log(error)
-        sendResponse(res, {
-            statusCode: 500,
-            success: false,
-            message: error.message,
-            data: error,
-          });
+       sendError(res, {
+         statusCode: 500,
+         success: false,
+         message: error.message,
+         errors: error,
+       })
     }
      
 }
@@ -48,10 +48,11 @@ const getAllIssues = async (req: Request, res: Response) => {
   } catch (error : any) {
   
 
-     return sendResponse(res, {
+     return sendError(res, {
        statusCode: 400,
        success: false,
        message: error.message || "Something went wrong",
+       errors: error,
      })
   }
 };
@@ -72,10 +73,11 @@ export const updateIssue = async (req: Request, res: Response) => {
    })
 
   } catch (error: any) {
-     return sendResponse(res, {
+     return  sendError(res, {
        statusCode: 400,
        success: false,
        message: error.message || "Something went wrong",
+       errors: error,
      })
   }
 };
@@ -96,10 +98,11 @@ export const deleteIssue = async (req: Request, res: Response) => {
       data: result,
     })
   } catch (error: any) {
-     return sendResponse(res, {
+     return  sendError(res, {
        statusCode: 400,
        success: false,
        message: error.message || "Something went wrong",
+       errors: error,
      })
   }
 };
@@ -118,11 +121,13 @@ export const getSingleIssue = async (req: Request, res: Response) => {
    })
 
   } catch (error: any) {
-     sendResponse(res, {
-       statusCode: 400,
-       success: false,
-       message: error.message || "Something went wrong",
-     })
+    return sendError(res, {
+      statusCode: 400,
+      success: false,
+      message: error.message || "Something went wrong",
+      errors: error,
+
+    })
   }
 };
 

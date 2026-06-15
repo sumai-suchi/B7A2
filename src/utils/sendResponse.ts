@@ -17,3 +17,22 @@ export const sendResponse = <T>(
     data: payload.data,
   });
 };
+
+type TError = {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  errors?: unknown;
+};
+
+
+export const sendError = (
+  res: Response,
+  payload: TError
+) => {
+  return res.status(payload.statusCode).json({
+    success: false,
+    message: payload.message,
+    errors: payload.errors,
+  });
+};

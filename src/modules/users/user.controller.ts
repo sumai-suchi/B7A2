@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import { sendResponse } from "../../utils/sendResponse";
+import { sendError, sendResponse } from "../../utils/sendResponse";
 import { userService } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
@@ -15,11 +15,12 @@ const createUser = async (req: Request, res: Response) => {
      
     });
   } catch (error: any) {
-    sendResponse(res, {
+    
+    sendError(res, {
       statusCode: 500,
       success: false,
       message: error.message,
-      data: error,
+      errors: error,
     });
   }
 };
@@ -40,11 +41,11 @@ const login=async( req : Request , res : Response)=>{
     }
     catch(error : any){
         console.log(error)
-        sendResponse(res, {
+        sendError(res, {
             statusCode: 500,
             success: false,
             message: error.message,
-            data: error,
+            errors: error,
           });
     }
 }
