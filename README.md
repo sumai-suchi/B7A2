@@ -185,55 +185,7 @@ Maintainer Only
 
 ### 1. Clone the Repository
 
-```bash
-git clone <repository-url>
-```
 
-### 2. Move into the Project Directory
-
-```bash
-cd devpulse-api
-```
-
-### 3. Install Dependencies
-
-```bash
-npm install
-```
-
-### 4. Create Environment Variables
-
-Create a `.env` file in the root directory and configure:
-
-```env
-PORT=5000
-
-DATABASE_URL=your_neon_database_connection_string
-
-JWT_SECRET=your_secret_key
-
-SALT_ROUNDS=10
-```
-
-### 5. Run the Development Server
-
-```bash
-npm run dev
-```
-
-### 6. Build the Project
-
-```bash
-npm run build
-```
-
-### 7. Start Production Server
-
-```bash
-npm start
-```
-
----
 
 ## Response Format
 
